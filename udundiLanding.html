@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            padding: 0;
+            font-family: Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+        }
+
+        .image-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .image-block {
+            position: relative;
+            flex: 1;
+            overflow: hidden;
+            margin: 10px 10px;
+        }
+
+        .red-bar {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 25%;
+            height: 100%;
+            background-color: #611818;
+            z-index: 0;
+        }
+
+
+
+        .read-more {
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            margin-left: 10px;
+
+        }
+
+        .read-more-link {
+            width: 24px;
+            height: 24px;
+            margin-right: 8px;
+            animation: bubble 2s ease-in-out forwards;
+        }
+
+        .read-more p {
+            margin: 0;
+            color: white;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+
+        .social-links {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .social-link {
+            margin-bottom: 10px;
+            width: 24px;
+            height: 24px;
+        }
+
+        img {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+
+
+
+        .close-button {
+            color: #611818;
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            cursor: pointer;
+        }
+
+        /* Add styles for the Explore text and Read More icon alignment */
+        .explore-container {
+            position: absolute;
+            top: 50%;
+            left: 15%;
+            /* transform: translate(-50%, -50%); */
+            display: flex;
+            flex-direction: column;
+        }
+
+        .explore-text {
+            margin: 0;
+            font-size: 6rem;
+            color: white;
+            font-weight: bold;
+            margin-right: 8px;
+            opacity: 0;
+            animation: fadeIn 1s ease-out forwards;
+        }
+
+        .container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .shrink,
+        .text-body {
+            background: none;
+            border: none;
+            cursor: pointer;
+            outline: none;
+            padding: 0;
+        }
+
+        .shrink img {
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .text-body {
+            position: absolute;
+            /* z-index: 20; */
+            /* top: 50%;
+            left: 25%; */
+            transform: translate(-50%, -50%) scale(0);
+            padding: 20px;
+            height: 500px;
+            width: 425px;
+            /* background-color: white; */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            animation: fadeInOut 1s ease-in-out forwards;
+            display: none;
+        }
+
+        .text-body h2 {
+            color: #611818;
+        }
+
+        .text-body button {
+            background: linear-gradient(to right, #611818, #611818 40%, #ffffff 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+            margin-top: 5px;
+           
+        }
+
+        .text-body button:hover {
+            background: #611818;
+        }
+
+        .text-body p {
+            margin: 45px;
+            color: grey;
+        }
+
+        .text-body.clicked {
+            display: block;
+            background-color: white;
+        }
+
+        .shrink.clicked+.text-body {
+            display: block;
+            background-color: white;
+            /* animation: fadeInOut 1s ease-in-out;  */
+        }
+
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+
+            }
+
+
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* White box */
+        /*adjust translate to move the starting point of the box*/
+        @keyframes fadeInOut {
+            from {
+                opacity: 0;
+                /* transform: translate(-50%, -50%) scale(0); */
+                transform: translate(-25%, -35%) scale(1);
+                border-radius: 20%;
+            }
+
+            
+            to {
+                opacity: 1;
+                transform: translate(-25%, -35%) scale(1);
+                /* transform: translate(-50%, -50%) scale(1); */
+                border-radius: 0%;
+            }
+        }
+
+        @keyframes bubble {
+            0% {
+                transform: scale(1);
+            }
+
+            50% {
+                transform: scale(1.1);
+            }
+
+            100% {
+                transform: scale(1);
+            }
+        }
+
+
+        .shrink.clicked img {
+            opacity: 0;
+            animation: bubble 2s ease-in-out forwards;
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        }
+
+        .shrink.clicked+.text-body h2,
+        .shrink.clicked+.text-body p {
+            opacity: 0;
+            transition: opacity 0.5s ease-in-out;
+        }
+
+        .shrink.clicked+.text-body h2 {
+            transition-delay: 0.2s;
+        }
+
+        .shrink.clicked+.text-body p {
+            transition-delay: 0.4s;
+        }
+
+    </style>
+    <title>Explore Text and Read More</title>
+</head>
+
+<body>
+    <div class="image-container">
+        <div class="image-block">
+            <div class="red-bar"></div>
+            <div class="explore-container">
+                <p class="explore-text">Explore</p>
+                <div class="container">
+                    <div class="read-more">
+                        <button class="shrink" onclick="shrinkSVG()">
+                            <img src="/Plus.svg" alt="Read More" class="read-more-link">
+                        </button>
+                        <p>Explore</p>
+                        <div class="text-body" id="textBody">
+                            <div class="close-button" onclick="closeTextBody()">X</div>
+                            <h2>Title</h2>
+                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
+                                ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
+                                ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
+                                reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
+                                sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
+                                est laborum.</p>
+                            <button>Read More</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <img src="/Coding-Challenge-Image.png" alt="Image 1">
+         
+            <div class="social-links">
+                <a href="https://www.facebook.com" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <img src="/Facebook.svg" alt="Facebook" width="100%" height="100%">
+                </a>
+                <a href="https://www.instagram.com" target="_blank" rel="noopener noreferrer" class="social-link">
+                    <img src="/Instagram.svg" alt="Instagram" width="100%" height="100%">
+                </a>
+            </div>
+        </div>
+        <script>
+            document.addEventListener('DOMContentLoaded', function () {
+                var exploreText = document.querySelector('.explore-text');
+                exploreText.classList.add('animated');
+            });
+
+
+            function shrinkSVG() {
+                console.log('shrinkSVG')
+                var shrinkButton = document.querySelector(".shrink");
+                var textBody = document.querySelector(".text-body");
+
+                shrinkButton.classList.toggle("clicked");
+                textBody.classList.toggle("clicked");
+            }
+
+
+            function closeTextBody() {
+                console.log('calling closeTextBody')
+                var shrinkButton = document.querySelector(".shrink");
+                var textBody = document.querySelector(".text-body");
+
+
+                shrinkButton.classList.remove("clicked");
+                textBody.classList.remove("clicked");
+
+            }
+
+
+        </script>
